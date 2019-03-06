@@ -11,7 +11,6 @@ public class BulletCode : MonoBehaviour
     void Start()
     {
         Destroy(this.gameObject, 3.0f);
-        Destroy(this.gameObject, 3.0f);
         character = GameObject.FindGameObjectWithTag("Player").GetComponent<Character>();
     }
 

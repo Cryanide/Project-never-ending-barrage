@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy1 : MonoBehaviour
+public class Enemy2 : MonoBehaviour
 {
     public Rigidbody2D bulletProjectile;
     public Transform target;
@@ -13,12 +13,13 @@ public class Enemy1 : MonoBehaviour
     public float shootDelay;
     public float MoveSpeed;
 
-    //int health = 1;
+    int health = 6;
 
     void Start()
     {
         InvokeRepeating("FireBullets", 1.0f, shootDelay);
         character = GameObject.FindGameObjectWithTag("Player").GetComponent<Character>();
+        target = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
     void Update()
@@ -31,7 +32,7 @@ public class Enemy1 : MonoBehaviour
     {
         // aims at the player
         this.transform.up = target.position - this.transform.position;
-        if (character.lives < 0)
+        if(character.lives < 0)
         {
             CancelInvoke("FireBullets");
         }
@@ -45,20 +46,14 @@ public class Enemy1 : MonoBehaviour
         Rigidbody2D bullet;
         bullet = Instantiate(bulletProjectile, eGun.transform.position, eGun.transform.rotation);
         bullet.velocity = transform.TransformDirection(Vector3.up * 10);
+        bullet = Instantiate(bulletProjectile, eGun.transform.position, eGun.transform.rotation);
+        bullet.velocity = transform.TransformDirection(new Vector3(3, 10, 0));
+        bullet = Instantiate(bulletProjectile, eGun.transform.position, eGun.transform.rotation);
+        bullet.velocity = transform.TransformDirection(new Vector3(-3, 10, 0));
     }
 
     void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.tag == "MainCamera")
-        {
-            //Destroy(this.gameObject);
-        }
-
-        if (col.tag == "PlayerBullets")
-        {
-            //health -= 1;
-
-        }
+        
     }
 }
-
