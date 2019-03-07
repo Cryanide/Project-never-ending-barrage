@@ -38,18 +38,24 @@ public class Enemy2 : MonoBehaviour
         }
 
         // moves to the player slowly
-        transform.position = Vector2.MoveTowards(transform.position, target.position, Time.deltaTime);
+        if (character.lives > 0) transform.position = Vector2.MoveTowards(transform.position, target.position, Time.deltaTime);
+        else transform.position = Vector2.MoveTowards(transform.position, target.position, 0);
     }
 
     void FireBullets()
     {
         Rigidbody2D bullet;
-        bullet = Instantiate(bulletProjectile, eGun.transform.position, eGun.transform.rotation);
-        bullet.velocity = transform.TransformDirection(Vector3.up * 10);
-        bullet = Instantiate(bulletProjectile, eGun.transform.position, eGun.transform.rotation);
-        bullet.velocity = transform.TransformDirection(new Vector3(3, 10, 0));
-        bullet = Instantiate(bulletProjectile, eGun.transform.position, eGun.transform.rotation);
-        bullet.velocity = transform.TransformDirection(new Vector3(-3, 10, 0));
+        if (character.lives > 0)
+        {
+            bullet = Instantiate(bulletProjectile, eGun.transform.position, eGun.transform.rotation);
+            bullet.velocity = transform.TransformDirection(Vector3.up * 10);
+
+            bullet = Instantiate(bulletProjectile, eGun.transform.position, eGun.transform.rotation);
+            bullet.velocity = transform.TransformDirection(new Vector3(3, 10, 0));
+
+            bullet = Instantiate(bulletProjectile, eGun.transform.position, eGun.transform.rotation);
+            bullet.velocity = transform.TransformDirection(new Vector3(-3, 10, 0));
+        }
     }
 
     void OnTriggerEnter2D(Collider2D col)

@@ -5,19 +5,29 @@ using UnityEngine;
 public class BulletCode : MonoBehaviour
 {
     public bool EnemyBullet;
+    public bool circleForm;
     public Character character;
+    public Rigidbody2D ShipCentre;
+    public Rigidbody2D enemyShip;
 
     // Start is called before the first frame update
     void Start()
     {
-        Destroy(this.gameObject, 3.0f);
+        if (!circleForm)
+            Destroy(this.gameObject, 3.0f);
         character = GameObject.FindGameObjectWithTag("Player").GetComponent<Character>();
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-
+        if (circleForm)
+        {
+            if (GameObject.FindGameObjectWithTag("EnemyBoss") == null) Destroy(this.gameObject, 2f);
+            ShipCentre = GameObject.FindGameObjectWithTag("ShipCentrePoint").GetComponent<Rigidbody2D>();
+            transform.RotateAround(ShipCentre.position, new Vector3(0, 0, 1), 60 * Time.deltaTime);
+            transform.position = Vector2.MoveTowards(transform.position, ShipCentre.position, -10 * Time.deltaTime);
+        }
     }
 
     void OnCollisionEnter2D(Collision2D col)
