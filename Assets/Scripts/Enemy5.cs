@@ -2,21 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy1 : MonoBehaviour
+public class Enemy5 : MonoBehaviour
 {
     /*
-     * the most basic enemy and the framework for all other (excluding specials)
-     * literally the only part that should be different amongst other enemies
-     * is the FireBullets() method
-     * everything else can be changed in the inspector
+     * fires a spray of 6 bullets downwards in a semi-circle shape
+     * slowly descends downward
      * 
-     * shoots quickly in a singular line
-     * crated by Gavin
+     * crated by Rox
      */
 
     public Rigidbody2D bulletProjectile;
     public Transform target;
-    public GameObject eGun;
+    public GameObject eGun1;
+    public GameObject eGun2;
+    public GameObject eGun3;
+    public GameObject eGun4;
+    public GameObject eGun5;
+    public GameObject eGun6;
 
     public Character character;
 
@@ -64,11 +66,11 @@ public class Enemy1 : MonoBehaviour
             //moves to entry point
             transform.position = Vector2.MoveTowards(transform.position, RulesOfEngagement.EntryPoints[EntryPointNumber].transform.position, 20 * Time.deltaTime);
         }
-        else this.transform.up = target.position - this.transform.position;
 
+        else transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, 0, 180);
 
         // moves to the player slowly EDIT: if inside play Area
-        if (!character.PlayerHasDied && RulesOfEngagement.InsidePlayArea) transform.position = Vector2.MoveTowards(transform.position, target.position, 5 * Time.deltaTime);
+        if (!character.PlayerHasDied && RulesOfEngagement.InsidePlayArea) gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0f, -2f);
 
         // if inside play area, face the target (which is the player)
         else transform.position = Vector2.MoveTowards(transform.position, target.position, 0);
@@ -80,10 +82,18 @@ public class Enemy1 : MonoBehaviour
         if (!character.PlayerHasDied && RulesOfEngagement.InsidePlayArea)
         {
             // merely shoots the bullet
-            bullet = Instantiate(bulletProjectile, eGun.transform.position, eGun.transform.rotation);
-            bullet.velocity = transform.TransformDirection(Vector3.up * 10);
+            bullet = Instantiate(bulletProjectile, eGun1.transform.position, eGun1.transform.rotation);
+            bullet.velocity = transform.TransformDirection(new Vector3(-4.77f, 1.5f, 0f));
+            bullet = Instantiate(bulletProjectile, eGun2.transform.position, eGun2.transform.rotation);
+            bullet.velocity = transform.TransformDirection(new Vector3(-4.08f, 2.9f, 0f));
+            bullet = Instantiate(bulletProjectile, eGun4.transform.position, eGun4.transform.rotation);
+            bullet.velocity = transform.TransformDirection(Vector3.up * 5);
+            bullet = Instantiate(bulletProjectile, eGun5.transform.position, eGun5.transform.rotation);
+            bullet.velocity = transform.TransformDirection(new Vector3(4.08f, 2.9f, 0f));
+            bullet = Instantiate(bulletProjectile, eGun6.transform.position, eGun6.transform.rotation);
+            bullet.velocity = transform.TransformDirection(new Vector3(4.77f, 1.5f, 0f));
         }
-        
+
     }
 }
 
